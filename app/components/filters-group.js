@@ -1,0 +1,1 @@
+export { default } from 'ember-hell-filters/components/filters-group';
