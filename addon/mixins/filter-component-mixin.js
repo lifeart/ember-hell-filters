@@ -13,7 +13,7 @@ export default Ember.Mixin.create({
   }),
   currentFilterEventsNamespace: computed('globalFiltersEventNamespace','filterName',function () {
     let filterName = get(this,'filterName');
-    return `${this.globalFiltersEventNamespace()}:${filterName}`;
+    return `${get(this,'globalFiltersEventNamespace')}:${filterName}`;
   }),
   init() {
     this._super(...arguments);

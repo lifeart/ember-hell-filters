@@ -1,1 +1,6 @@
+{{#each filters as |filter|}}
+  {{#filters-group-proxy-filter filterName=filter.name filtersUID=filtersUID}}
+   {{component filter.componentName filterName=filter.name filtersUID=filtersUID config=filter.config rawChange=changeActionName didChange=(action changeActionName filter.name)}}
+  {{/filters-group-proxy-filter}}
+  {{/each}}
 {{yield}}
