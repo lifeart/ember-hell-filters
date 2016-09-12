@@ -15,44 +15,6 @@ export default Ember.Mixin.create({
           name: 'deep_level',
           value: 'managers'
         },
-        filters: [
-          {
-            componentName: 'filters/checkbox-select',
-            name: 'root_model_name23',
-            config: {
-              label: 'Глубина вложенности 2',
-              placeholder: 'Укажите глубину',
-              idKey: 'id',
-              textKey: 'name',
-              options: [
-                {id:'manager',name:'Менеджер'},
-                {id:'contractor',name:'Контрагент'},
-                {id:'campaign',name:'Рекламная кампания'},
-                {id:'manager12',name:'Менеджер12'},
-                {id:'contractor12',name:'Контрагент12'},
-                {id:'campaign12',name:'Рекламная кампания12'}
-              ],
-              value: ['contractor','contractor12']
-            }
-          },
-          {
-            componentName: 'filters/checkbox-select',
-            name: 'domain_typwere',
-            config: {
-              label: 'Тип домена',
-              placeholder: 'Тип домена',
-              idKey: 'id',
-              textKey: 'name',
-              options: [
-                {id:'WHITE',name:'White'},
-                {id:'BLUE',name:'Blue'},
-                {id:'GRAY',name:'Gray'},
-                {id:'BLACK',name:'Black'},
-                {id:'UNKNOWN',name:'Unknown'}
-              ]
-            }
-          },
-        ],
         config: {
           label: 'Глубина вложенности 2',
           placeholder: 'Укажите глубину',
