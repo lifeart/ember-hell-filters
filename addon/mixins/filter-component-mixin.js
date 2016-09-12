@@ -2,10 +2,19 @@ import Ember from 'ember';
 const {get,computed,inject}  = Ember;
 export default Ember.Mixin.create({
   filterEventBus: inject.service(),
+  eventsNamespace: computed.readOnly('filterEventBus.eventsNamespace'),
+  groupNamespace: computed.readOnly('filterEventBus.groupNamespace'),
+  getValueDefaultAction: 'valueAction',
   globalEventTrigger: '_defaultPropertyTrigger',
   localEventTrigger: '_defaultPropertyTrigger',
-  eventsNamespace: 'filters',
-  groupNamespace: 'filters-group',
+  globalFiltersEventNamespace: computed('filtersUID',function () {
+    let filtersUID = get(this,'filtersUID');
+    return `${get(this,'eventsNamespace')}:${filtersUID}`;
+  }),
+  currentFilterEventsNamespace: computed('globalFiltersEventNamespace','filterName',function () {
+    let filterName = get(this,'filterName');
+    return `${this.globalFiltersEventNamespace()}:${filterName}`;
+  }),
   init() {
     this._super(...arguments);
 
@@ -23,14 +32,6 @@ export default Ember.Mixin.create({
   },
   filterName: computed(function () {
     return `hell_filters_filter_${this.eventBus().generateId()}`;
-  }),
-  globalFiltersEventNamespace: Ember.computed('filtersUID',function () {
-    let filtersUID = get(this,'filtersUID');
-    return `${get(this,'eventsNamespace')}:${filtersUID}`;
-  }),
-  currentFilterEventsNamespace: Ember.computed('globalFiltersEventNamespace','filterName',function () {
-    let filterName = get(this,'filterName');
-    return `${this.globalFiltersEventNamespace()}:${filterName}`;
   }),
   eventBus() {
     return get(this,'filterEventBus');
@@ -51,8 +52,8 @@ export default Ember.Mixin.create({
       });
 
       if (hasValidState) {
-        if (this.actions && this.actions.hasOwnProperty('valueAction')) {
-          this.send('valueAction',uid);
+        if (this.actions && this.actions.hasOwnProperty(get(this,'getValueDefaultAction'))) {
+          this.send(get(this,'getValueDefaultAction'),uid);
         }
       }
     }

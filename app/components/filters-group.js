@@ -1,1 +1,3 @@
-export { default } from 'ember-hell-filters/components/filters-group';
+import  FiltersGroup from 'ember-hell-filters/components/filters-group';
+
+export default FiltersGroup;

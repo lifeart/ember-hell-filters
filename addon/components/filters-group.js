@@ -1,22 +1,23 @@
 import Ember from 'ember';
 import layout from '../templates/components/filters-group';
 import FilterGroupMessageReceiver from '../mixins/filter-group-message-receiver';
-const { get } = Ember;
-export default Ember.Component.extend(FilterGroupMessageReceiver,{
+const { get, computed, Component, inject, set } = Ember;
+export default Component.extend(FilterGroupMessageReceiver,{
   layout,
   filterEventBus: inject.service(),
   defaultMessageReceiverName: '_messageReceiver',
-
+  eventsNamespace: computed.readOnly('filterEventBus.eventsNamespace'),
+  groupNamespace: computed.readOnly('filterEventBus.groupNamespace'),
   init() {
     this._super(...arguments);
     if (!get(this,'filtersUID')) {
       set(this,'filtersUID',get(this,'filterEventBus').generateId());
     }
-    get(this,'filterEventBus').on(`filter-group:${get(this,'filtersUID')}`, this, get(this,'defaultMessageReceiverName'));
+    get(this,'filterEventBus').on(`${get(this,'groupNamespace')}:${get(this,'filtersUID')}`, this, get(this,'defaultMessageReceiverName'));
   },
   willClearRender() {
     this._super(...arguments);
-    get(this,'filterEventBus').off(`filter-group:${get(this,'filtersUID')}`, this,  get(this,'defaultMessageReceiverName'));
+    get(this,'filterEventBus').off(`${get(this,'groupNamespace')}:${get(this,'filtersUID')}`, this,  get(this,'defaultMessageReceiverName'));
   },
 
   hiddenValues() {
@@ -31,7 +32,7 @@ export default Ember.Component.extend(FilterGroupMessageReceiver,{
     let p = new RSVP.Promise((resolve,reject)=>{
       this.messageResolver(id,resolve,reject);
     });
-    get(this,'filterEventBus').trigger(`filters:${get(this,'filtersUID')}`,name,fields,id);
+    get(this,'filterEventBus').trigger(`${get(this,'eventsNamespace')}:${get(this,'filtersUID')}`,name,fields,id);
     this.initMessageResolver(id);
     return p;
   },

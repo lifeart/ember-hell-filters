@@ -9,4 +9,6 @@ export default Ember.Service.extend(Evented, {
       return v.toString(16);
     });
   },
+  eventsNamespace: 'filters',
+  groupNamespace: 'filters-group'
 });
