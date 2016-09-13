@@ -2,7 +2,7 @@ import Ember from 'ember';
 import layout from '../templates/components/filters-group';
 import FilterGroupMessageReceiver from '../mixins/filter-group-message-receiver';
 import FiltersGroupControllerMixin from '../mixins/filters-group-controller-mixin';
-const { get, computed, Component, inject, set, RSVP } = Ember;
+const { get, computed, Component, inject, set, RSVP, isArray, A} = Ember;
 export default Component.extend(FilterGroupMessageReceiver,FiltersGroupControllerMixin,{
   layout,
   filterEventBus: inject.service(),
@@ -75,7 +75,6 @@ export default Component.extend(FilterGroupMessageReceiver,FiltersGroupControlle
   actions: {
     proxy(context) {
       if (context) {
-        let actionName = arguments[1];
         let bindArgs = Array.prototype.slice.call(arguments, 1);
         context.send.apply(context,bindArgs);
       }
