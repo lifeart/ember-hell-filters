@@ -1,12 +1,12 @@
-{{#each filters as |filter|}}
+{{#each existingFilters as |filter|}}
   {{#filters-group-proxy-filter filterName=filter.name filtersUID=filtersUID}}
     {{#if filter.filters}}
       {{#component filter.componentName filterName=filter.name filtersUID=filtersUID config=filter.config rawChange=changeActionName didChange=(action changeActionName filter.name)}}
-        {{filters-group existing_filters=filter.filters}}
+        {{filters-group filters=filter.filters}}
       {{/component}}
     {{else}}
       {{component filter.componentName filterName=filter.name filtersUID=filtersUID config=filter.config rawChange=changeActionName didChange=(action changeActionName filter.name)}}
     {{/if}}
  {{/filters-group-proxy-filter}}
-  {{/each}}
-{{yield}}
+{{/each}}
+{{yield this actions}}

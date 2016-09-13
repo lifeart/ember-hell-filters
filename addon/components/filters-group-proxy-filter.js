@@ -6,5 +6,6 @@ export default Ember.Component.extend(FilterComponentMixin,{
   classNames: ['flex-block'],
   tagName: 'div',
   classNameBindings: ['isHidden:hidden'],
-  isHidden: false
+  isHidden: false,
+  isProxy: true
 });

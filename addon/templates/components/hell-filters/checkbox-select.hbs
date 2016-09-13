@@ -1,0 +1,23 @@
+
+    <label {{action "toggleCheckboxes"}}>
+        <span class="glyphicon {{if showCheckboxes "glyphicon-triangle-right" "glyphicon-triangle-bottom"}}"></span>
+      {{label}}
+      {{#unless showCheckboxes}}
+          <small>(<strong>{{selectedItems.length}}</strong>)</small>
+      {{/unless}}
+    </label>
+    <div class="checkbox {{if showCheckboxes "state-visible" "state-hidden"}}">
+      {{#each checkboxes as |option|}}
+
+          <div class="flex-block flex-block--tiny">
+              <label class="{{if option.value "checked" "not-checked"}}">
+                {{#if option.checked}}
+                    <input type="checkbox" checked onchange={{action (mut option.value) value="target.checked"}} placeholder="{{placeholder}}"  {{action 'valueChanged' on='change'}}> {{option.name}}
+                {{else}}
+                    <input type="checkbox"  onchange={{action (mut option.value) value="target.checked"}} placeholder="{{placeholder}}"  {{action 'valueChanged' on='change'}}> {{option.name}}
+                {{/if}}
+              </label>
+          </div>
+      {{/each}}
+    </div>
+  {{yield}}

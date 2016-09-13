@@ -1,10 +1,10 @@
 import Ember from 'ember';
-const { get, set, run } = Ember;
+const { get, set, run, RSVP, computed, merge } = Ember;
 export default Ember.Mixin.create({
-  _mapData: Ember.computed(function () {
+  _mapData: computed(function () {
     return {}
   }),
-  messageDebounce: Ember.computed(function () {
+  messageDebounce: computed(function () {
     return 50;
   }),
   _messageReceiver(uid,datum) {

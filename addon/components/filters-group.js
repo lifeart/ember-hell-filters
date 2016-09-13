@@ -2,7 +2,7 @@ import Ember from 'ember';
 import layout from '../templates/components/filters-group';
 import FilterGroupMessageReceiver from '../mixins/filter-group-message-receiver';
 import FiltersGroupControllerMixin from '../mixins/filters-group-controller-mixin';
-const { get, computed, Component, inject, set } = Ember;
+const { get, computed, Component, inject, set, RSVP } = Ember;
 export default Component.extend(FilterGroupMessageReceiver,FiltersGroupControllerMixin,{
   layout,
   filterEventBus: inject.service(),
@@ -29,10 +29,8 @@ export default Component.extend(FilterGroupMessageReceiver,FiltersGroupControlle
   visibleValues() {
     return this.createGlobalRequest('value:if',{isHidden:false});
   },
-
   createLocalRequest(filterName,actionName,fields) {
     let id = get(this,'filterEventBus').generateId();
-    console.log(`${get(this,'eventsNamespace')}:${get(this,'filtersUID')}:${filterName}`);
     get(this,'filterEventBus').trigger(`${get(this,'eventsNamespace')}:${get(this,'filtersUID')}:${filterName}`,actionName,fields,id);
   },
   createGlobalRequest(name,fields) {
@@ -45,7 +43,43 @@ export default Component.extend(FilterGroupMessageReceiver,FiltersGroupControlle
     return p;
   },
   values: {},
+
+
+  selectedFilters: Ember.computed('filters',function () {
+    let filters = get(this,'filters');
+    let values = get(this,'values') || {};
+
+    if (!filters || !isArray(filters) || !filters.length) {
+      return A();
+    }
+
+    filters.forEach(filter=>{
+      let filterName = get(filter,'name');
+      if (values.hasOwnProperty(filterName) && typeof values[filterName] !== 'undefined') {
+        if (typeof values[filterName] === 'object' && !isArray(values[filterName])) {
+          Object.keys(values[filterName]).forEach(keyName=>{
+            filter.config[keyName] = values[filterName][keyName];
+          });
+        } else {
+          filter.config.value = values[filterName];
+        }
+      }
+    });
+
+    return filters.filter(function (filter) {
+      return (filter.hasOwnProperty('active') && ([false,0].indexOf(filter.active)>-1)) ? false : true;
+    });
+  }),
+
+
   actions: {
+    proxy(context) {
+      if (context) {
+        let actionName = arguments[1];
+        let bindArgs = Array.prototype.slice.call(arguments, 1);
+        context.send.apply(context,bindArgs);
+      }
+    },
     filterFieldChanged() {
       console.log(arguments);
       this.set(`values.${arguments[0]}`,arguments[1]);
@@ -54,6 +88,7 @@ export default Component.extend(FilterGroupMessageReceiver,FiltersGroupControlle
       console.log(this.get('values'));
     },
     applyVisibleFilters() {
+      console.log(this);
       this.visibleValues().then(values=>{
         this.set('resolvedFilters',values);
         this.sendAction('filtersDidChange',values);

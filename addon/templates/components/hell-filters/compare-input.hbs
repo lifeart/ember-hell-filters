@@ -1,0 +1,27 @@
+  <label>{{label}}</label>
+    <div class="input-group">
+        <div class="input-group-btn {{if isOpened "open"}}" {{action 'toggleState'}}>
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="{{if isOpened "true" "false"}}">
+              {{#if cmpSymbol}}
+                {{cmpSymbol}}
+              {{else}}
+                  ?
+              {{/if}}
+
+            </button>
+
+            <ul class="dropdown-menu">
+                <li>
+                    <a href="#" {{action 'changeCmpValue' '>'}}> <strong>&gt;</strong> <small>|</small> больше</a>
+                </li>
+                <li>
+                    <a href="#" {{action 'changeCmpValue' '='}}> <strong>=</strong> <small>|</small> равно</a>
+                </li>
+                <li>
+                    <a href="#" {{action 'changeCmpValue' '<'}}> <strong>&lt;</strong> <small>|</small> меньше</a>
+                </li>
+            </ul>
+        </div>
+        <input type="text" class="form-control" value="{{value}}" oninput={{action (mut value) value="target.value"}} placeholder="{{placeholder}}"  {{action 'valueChanged' on='change'}}>
+    </div>
+{{yield}}

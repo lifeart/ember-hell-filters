@@ -1,0 +1,11 @@
+<label>{{label}}</label>
+<div class="checkbox">
+  <label>
+    {{#if checked}}
+        <input type="checkbox" checked onchange={{action (mut value) value="target.checked"}} placeholder="{{placeholder}}"  {{action 'valueChanged' on='change'}}> {{placeholder}}
+    {{else}}
+        <input type="checkbox"  onchange={{action (mut value) value="target.checked"}} placeholder="{{placeholder}}"  {{action 'valueChanged' on='change'}}> {{placeholder}}
+    {{/if}}
+  </label>
+</div>
+{{yield}}
