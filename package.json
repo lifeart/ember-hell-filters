@@ -1,6 +1,6 @@
 {
   "name": "ember-hell-filters",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "description": "This is filters-hell solving ember component",
   "directories": {
     "doc": "doc",
@@ -52,6 +52,7 @@
     "ember-cli-bootstrap-datepicker": "0.5.5"
   },
   "ember-addon": {
-    "configPath": "tests/dummy/config"
+    "configPath": "tests/dummy/config",
+    "demoURL": "https://lifeart.github.io/ember-hell-filters/demo/"
   }
 }
