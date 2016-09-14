@@ -1,6 +1,9 @@
 # Ember-hell-filters
 
 This README outlines the details of collaborating on this Ember addon.
+## DEMO
+
+ [https://lifeart.github.io/ember-hell-filters/demo/](https://lifeart.github.io/ember-hell-filters/demo/)
 
 ## Example
 
