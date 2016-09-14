@@ -1,7 +1,12 @@
 <label class="for-inline-inputs">{{label}}</label>
 <div class="inline-inputs">
-    <input type="text" value="{{valueStart}}" class="form-control" oninput={{action (mut valueStart) value="target.value"}}  {{action 'valueChanged' on='change'}} placeholder="{{placeholderStart}}">
-    <input type="text" value="{{valueEnd}}" class="form-control" oninput={{action (mut valueEnd) value="target.value"}}  {{action 'valueChanged' on='change'}} placeholder="{{placeholderEnd}}">
-</div>
-
+    <div class="row">
+        <div class="col-xs-6">
+            <input type="{{type}}" value="{{valueStart}}" class="form-control" oninput={{action (mut valueStart) value="target.value"}}  {{action 'valueChanged' on='change'}} placeholder="{{placeholderStart}}">
+        </div>
+        <div class="col-xs-6">
+            <input type="{{type}}" value="{{valueEnd}}" class="form-control" oninput={{action (mut valueEnd) value="target.value"}}  {{action 'valueChanged' on='change'}} placeholder="{{placeholderEnd}}">
+        </div>
+    </div>
+  </div>
 {{yield}}

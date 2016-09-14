@@ -140,7 +140,6 @@ export default Ember.Component.extend(FilterComponentMixin,{
         result[get(this,'filterName')] = isArray(items)?items.map(el=>get(el,idKey)):get(items,idKey);
         this.sendMessageToParent(messageName,result,uid);
       }
-
     }
   }
 });

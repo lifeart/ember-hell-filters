@@ -1,14 +1,14 @@
-/* global moment */
 import Ember from 'ember';
 import layout from '../../templates/components/hell-filters/date-input';
 import FilterComponentMixin from '../../mixins/filter-component-mixin';
-const {computed} = Ember;
+const {computed, get} = Ember;
 export default Ember.Component.extend(FilterComponentMixin,{
   layout,
   classNames: ['form-group'],
   tagName: 'div',
   label: 'SampleLabel',
   todayHighlight: false,
+  isHidden: false,
   placeholder: 'SamplePlaceholder',
   didReceiveAttrs() {
     this._super(...arguments);
@@ -28,7 +28,12 @@ export default Ember.Component.extend(FilterComponentMixin,{
   }),
   actions: {
     valueChanged: function () {
-      this.sendAction('didChange',moment(this.get('value')));
+      this.sendAction('didChange',this.get('value'));
+    },
+    valueAction(messageName,uid) {
+      let result = {};
+      result[get(this,'filterName')] = this.get('value');
+      this.sendMessageToParent(messageName,result,uid);
     }
   }
 });

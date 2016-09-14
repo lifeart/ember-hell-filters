@@ -1,15 +1,13 @@
-/* global moment */
 import Ember from 'ember';
 import layout from '../../templates/components/hell-filters/date-range-input';
 import FilterComponentMixin from '../../mixins/filter-component-mixin';
+const {get} = Ember;
 export default Ember.Component.extend(FilterComponentMixin,{
   layout,
   classNames: ['form-group'],
   tagName: 'div',
   label: 'Сотрудники',
   dateFormat: "yyyy-mm-dd",
-  momentDateFormat: "YYYY-MM-DD",
-  returnFormatted: true,
   classNameBindings: ['isHidden:hidden'],
   isHidden: false,
   didReceiveAttrs() {
@@ -22,7 +20,7 @@ export default Ember.Component.extend(FilterComponentMixin,{
     valuesToSet.forEach(item=>{
       if (config.hasOwnProperty(item)) {
         if ((item === 'valueStart' || item === 'valueEnd') && typeof item === 'string') {
-          this.set(item,moment(config[item]).toDate());
+          this.set(item,date(config[item]));
         } else {
           this.set(item,config[item]);
         }
@@ -57,32 +55,21 @@ export default Ember.Component.extend(FilterComponentMixin,{
       let result = {};
       result[this.get('filterName')] = [this.get('valueStart'),this.get('valueEnd')];
       if (this.get('valueEndAlias')) {
-        result[this.get('valueEndAlias')] = moment(this.get('valueEnd'));
+        result[this.get('valueEndAlias')] = this.get('valueEnd');
       }
       if (this.get('valueStartAlias')) {
-        result[this.get('valueStartAlias')] = moment(this.get('valueStart'));
+        result[this.get('valueStartAlias')] = this.get('valueStart');
       }
       this.sendMessageToParent(messageName,result,uid);
     },
     valueChanged: function () {
-      if (this.get('returnFormatted')) {
-        this.sendAction('didChange',[moment(this.get('valueStart')).format(this.get('momentDateFormat')),moment(this.get('valueEnd')).format(this.get('momentDateFormat'))]);
-        if (this.get('valueEndAlias')) {
-          this.sendAction('rawChange',this.get('valueEndAlias'),moment(this.get('valueEnd')).format(this.get('momentDateFormat')));
-        }
-        if (this.get('valueStartAlias')) {
-          this.sendAction('rawChange',this.get('valueStartAlias'),moment(this.get('valueStart')).format(this.get('momentDateFormat')));
-        }
-      } else {
-        this.sendAction('didChange',[moment(this.get('valueStart')),moment(this.get('valueEnd'))]);
-        if (this.get('valueEndAlias')) {
-          this.sendAction('rawChange',this.get('valueEndAlias'),moment(this.get('valueEnd')));
-        }
-        if (this.get('valueStartAlias')) {
-          this.sendAction('rawChange',this.get('valueStartAlias'),moment(this.get('valueStart')));
-        }
+      this.sendAction('didChange',[this.get('valueStart'),this.get('valueEnd')]);
+      if (this.get('valueEndAlias')) {
+        this.sendAction('rawChange',this.get('valueEndAlias'),this.get('valueEnd'));
       }
-
+      if (this.get('valueStartAlias')) {
+        this.sendAction('rawChange',this.get('valueStartAlias'),this.get('valueStart'));
+      }
     }
   }
 });

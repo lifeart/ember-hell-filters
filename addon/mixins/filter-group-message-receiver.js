@@ -2,7 +2,7 @@ import Ember from 'ember';
 const { get, set, run, RSVP, computed, merge } = Ember;
 export default Ember.Mixin.create({
   _mapData: computed(function () {
-    return {}
+    return {};
   }),
   messageDebounce: computed(function () {
     return 50;

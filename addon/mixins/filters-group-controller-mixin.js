@@ -1,5 +1,5 @@
 import Ember from 'ember';
-const {run,computed,inject,get,isArray,A,observer} = Ember;
+const {run,computed,get,isArray,observer} = Ember;
 export default Ember.Mixin.create({
   filterIteration: 0,
   init() {
@@ -8,8 +8,8 @@ export default Ember.Mixin.create({
       this.incrementProperty('filterIteration');
     });
   },
-  selected_items: computed('filters','values',function () {
-    let allFilters = get(this,'filters');
+  selected_items: computed('selectedFilters','values',function () {
+    let allFilters = get(this,'selectedFilters') || [];
     let values = { };
     allFilters.forEach(filter=>{
       if (typeof get(filter,'config.value') !== 'undefined') {
@@ -27,7 +27,7 @@ export default Ember.Mixin.create({
     let selectedKeys = [];
     Object.keys(selectedItems).forEach(keyName=>{
       if (typeof selectedItems[keyName] !== 'undefined') {
-        if (['number','string'].indexOf(typeof selectedItems[keyName])>-1) {
+        if (['number','string','boolean'].indexOf(typeof selectedItems[keyName])>-1) {
           selectedKeys.push(`${keyName}:${selectedItems[keyName]}`);
         }
         if (isArray(selectedItems[keyName])) {
@@ -45,7 +45,7 @@ export default Ember.Mixin.create({
   }),
   filtersController: observer('filterIteration',function () {
 
-    let allFilters = get(this,'filters');
+    let allFilters = get(this,'selectedFilters') || [];
     let existingSelectedKeys = get(this,'selectedKeys');
     console.log('existingSelectedKeys',existingSelectedKeys);
     allFilters.forEach(filter=>{
@@ -68,9 +68,10 @@ export default Ember.Mixin.create({
 
   }),
   dependenciesMap: {},
-  existingFilters: computed('filters',function () {
-    let allFilters = get(this,'filters');
-    let dependsMap = get(this,'dependenciesMap') || {};
+  existingFilters: computed('selectedFilters',function () {
+    console.log('existingFilters');
+    let allFilters = get(this,'selectedFilters') || [];
+    let dependsMap = {};
     allFilters.forEach(filter=>{
       let dependedFilterName = get(filter,'dependsOn.name');
       if (dependedFilterName) {
@@ -81,13 +82,6 @@ export default Ember.Mixin.create({
       }
     });
     this.set('dependenciesMap',dependsMap);
-    run.next(this,function () {
-
-      if (!(get(this,'isDestroyed') || get(this,'isDestroying'))) {
-        this.incrementProperty('filterIteration');
-      }
-
-    });
     return allFilters;
   }),
   hideFilter(filerName) {

@@ -44,8 +44,8 @@ export default Component.extend(FilterGroupMessageReceiver,FiltersGroupControlle
   },
   values: {},
 
-
   selectedFilters: Ember.computed('filters',function () {
+    console.log('selectedFilters');
     let filters = get(this,'filters');
     let values = get(this,'values') || {};
 

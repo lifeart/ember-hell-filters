@@ -1,10 +1,11 @@
 import Ember from 'ember';
 import layout from '../../templates/components/hell-filters/text-input';
 import FilterComponentMixin from '../../mixins/filter-component-mixin';
-
+const {get} = Ember;
 export default Ember.Component.extend(FilterComponentMixin,{
   layout,
   classNames: ['form-group'],
+  isHidden: false,
   tagName: 'div',
   label: '',
   placeholder: '',
@@ -25,8 +26,11 @@ export default Ember.Component.extend(FilterComponentMixin,{
   actions: {
     valueChanged: function () {
       this.sendAction('didChange',this.get('value'));
-      // console.log(arguments);
-      // console.log(this.get('value'));
+    },
+    valueAction(messageName,uid) {
+      let result = {};
+      result[get(this,'filterName')] = this.get('value');
+      this.sendMessageToParent(messageName,result,uid);
     }
   }
 });

@@ -1,26 +1,36 @@
 
     <label class="for-inline-inputs">{{label}}</label>
     <div class="inline-inputs" style="max-width: 256px;">
-      {{bootstrap-datepicker
-      value=valueStart
-      placeholder=placeholderStart
-      format=dateFormat
-      class="form-control"
-      weekStart=1
-      language='ru'
-      todayHighlight=todayHighlightStart
-      changeDate="valueChanged"
-      }}
-      {{bootstrap-datepicker
-      value=valueEnd
-      placeholder=placeholderEnd
-      format=dateFormat
-      class="form-control"
-      weekStart=1
-      language='ru'
-      todayHighlight=todayHighlightEnd
-      changeDate="valueChanged"
-      }}
+        <div class="row">
+            <div class="col-xs-6">
+              {{bootstrap-datepicker
+            value=valueStart
+            placeholder=placeholderStart
+            format=dateFormat
+            class="form-control"
+            weekStart=1
+            language='ru'
+            todayHighlight=todayHighlightStart
+            changeDate="valueChanged"
+            }}
+            </div>
+            <div class="col-xs-6">
+              {{bootstrap-datepicker
+              value=valueEnd
+              placeholder=placeholderEnd
+              format=dateFormat
+              class="form-control"
+              weekStart=1
+              language='ru'
+              todayHighlight=todayHighlightEnd
+              changeDate="valueChanged"
+              }}
+
+            </div>
+
+        </div>
+
+
     </div>
 
 {{yield}}
