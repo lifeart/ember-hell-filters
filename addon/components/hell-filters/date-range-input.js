@@ -10,17 +10,18 @@ export default Ember.Component.extend(FilterComponentMixin,{
   dateFormat: "yyyy-mm-dd",
   classNameBindings: ['isHidden:hidden'],
   isHidden: false,
+  configurableProperties: ['valueEndAlias','isHidden','valueStartAlias','value','placeholderStart','placeholderEnd','todayHighlightStart','todayHighlightEnd','valueStart','valueEnd','label'],
   didReceiveAttrs() {
     this._super(...arguments);
     let config = this.get('config');
     if (!config || typeof config !== 'object') {
       return;
     }
-    let valuesToSet = ['valueEndAlias','isHidden','valueStartAlias','value','placeholderStart','placeholderEnd','todayHighlightStart','todayHighlightEnd','valueStart','valueEnd','label'];
+    let valuesToSet = get(this,'configurableProperties');
     valuesToSet.forEach(item=>{
       if (config.hasOwnProperty(item)) {
         if ((item === 'valueStart' || item === 'valueEnd') && typeof item === 'string') {
-          this.set(item,date(config[item]));
+          this.set(item,new Date(config[item]));
         } else {
           this.set(item,config[item]);
         }

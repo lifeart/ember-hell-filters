@@ -7,13 +7,14 @@ export default Ember.Component.extend(FilterComponentMixin,{
   classNames: ['form-group'],
   tagName: 'div',
   isHidden: false,
+  configurableProperties: ['value','placeholder','label'],
   didReceiveAttrs() {
     this._super(...arguments);
     let config = this.get('config');
     if (!config || typeof config !== 'object') {
       return;
     }
-    let valuesToSet = ['value','placeholder','label'];
+    let valuesToSet = get(this,'configurableProperties');
     valuesToSet.forEach(item=>{
       if (config.hasOwnProperty(item)) {
         this.set(item,config[item]);

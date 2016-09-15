@@ -9,13 +9,14 @@ export default Ember.Component.extend(FilterComponentMixin,{
   classNameBindings: ['isHidden:hidden'],
   isHidden: false,
   showCheckboxes: false,
+  configurableProperties: ['options','placeholder','label','value','textKey','idKey','showCheckboxes'],
   didReceiveAttrs() {
     this._super(...arguments);
     let config = this.get('config');
     if (!config || typeof config !== 'object') {
       return;
     }
-    let valuesToSet = ['options','placeholder','label','value','textKey','idKey','showCheckboxes'];
+    let valuesToSet = get(this,'configurableProperties');
     valuesToSet.forEach(item=>{
       if (config.hasOwnProperty(item)) {
         this.set(item,config[item]);

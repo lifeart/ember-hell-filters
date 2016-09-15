@@ -13,13 +13,14 @@ export default Ember.Component.extend(FilterComponentMixin,{
   cmpAlias: false,
   valueAlias: false,
   isHidden: false,
+  configurableProperties: ['value','placeholder','label','cmpSymbol','cmpAlias','valueAlias'],
   didReceiveAttrs() {
     this._super(...arguments);
     let config = this.get('config');
     if (!config || typeof config !== 'object') {
       return;
     }
-    let valuesToSet = ['value','placeholder','label','cmpSymbol','cmpAlias','valueAlias'];
+    let valuesToSet = get(this,'configurableProperties');
     valuesToSet.forEach(item=>{
       if (config.hasOwnProperty(item)) {
         this.set(item,config[item]);
