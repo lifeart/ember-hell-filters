@@ -1,6 +1,6 @@
 {
   "name": "ember-hell-filters",
-  "version": "0.1.14",
+  "version": "0.1.15",
   "description": "This is filters-hell solving ember component",
   "directories": {
     "doc": "doc",
@@ -44,7 +44,7 @@
     "loader.js": "^4.0.1"
   },
   "keywords": [
-    "ember-addon", "filters", "ember-filters", "filter-component", "filter"
+    "ember-addon", "filters", "ember-filters", "filter-component", "filter","filters", "forms", "form-builder", "interactive-forms"
   ],
   "dependencies": {
     "ember-cli-babel": "^5.1.6",
