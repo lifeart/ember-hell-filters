@@ -28,6 +28,9 @@ export default Ember.Component.extend(FilterComponentMixin,{
     this.send('valueChanged');
   }),
   label: '',
+  hasLabel: Ember.computed('label',function(){
+    return this.get('label') !== false;
+  }),
   placeholder: '',
   value: false,
   actions: {
