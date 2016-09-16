@@ -29,9 +29,16 @@ export default Ember.Mixin.create({
       if (typeof selectedItems[keyName] !== 'undefined') {
         if (['number','string','boolean'].indexOf(typeof selectedItems[keyName])>-1) {
           selectedKeys.push(`${keyName}:${selectedItems[keyName]}`);
+          if (String(selectedItems[keyName]).trim() === '') {
+            selectedKeys.push(`${keyName}:@empty`);
+          }
         }
         if (isArray(selectedItems[keyName])) {
-          selectedKeys.push(`${keyName}:@any`);
+          if (selectedItems[keyName].length) {
+            selectedKeys.push(`${keyName}:@any`);
+          } else {
+            selectedKeys.push(`${keyName}:@empty`);
+          }
           selectedItems[keyName].forEach(value=>{
             selectedKeys.push(`${keyName}:${value}`);
           });

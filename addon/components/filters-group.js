@@ -87,7 +87,6 @@ export default Component.extend(FilterGroupMessageReceiver,FiltersGroupControlle
       console.log(this.get('values'));
     },
     applyVisibleFilters() {
-      console.log(this);
       this.visibleValues().then(values=>{
         this.set('resolvedFilters',values);
         this.sendAction('filtersDidChange',values);
