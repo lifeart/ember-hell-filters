@@ -2,7 +2,7 @@ import Ember from 'ember';
 import layout from '../templates/components/filters-group';
 import FilterGroupMessageReceiver from '../mixins/filter-group-message-receiver';
 import FiltersGroupControllerMixin from '../mixins/filters-group-controller-mixin';
-const { get, computed, Component, inject, set, RSVP, isArray, A} = Ember;
+const { get, computed, observer, Component, inject, set, RSVP, isArray, A} = Ember;
 export default Component.extend(FilterGroupMessageReceiver,FiltersGroupControllerMixin,{
   layout,
   filterEventBus: inject.service(),
@@ -43,9 +43,13 @@ export default Component.extend(FilterGroupMessageReceiver,FiltersGroupControlle
     return p;
   },
   values: {},
-
-  selectedFilters: Ember.computed('filters',function () {
-    console.log('selectedFilters');
+  filters: computed(function () {
+    return A();
+  }),
+  filtersObserver: observer('filters',function () {
+      this.incrementProperty('filterIteration');
+  }),
+  selectedFilters: computed('filters',function () {
     let filters = get(this,'filters');
     let values = get(this,'values') || {};
 
@@ -66,11 +70,15 @@ export default Component.extend(FilterGroupMessageReceiver,FiltersGroupControlle
       }
     });
 
+
+
     return filters.filter(function (filter) {
       return (filter.hasOwnProperty('active') && ([false,0].indexOf(filter.active)>-1)) ? false : true;
     });
   }),
-
+  didReceiveAttrs() {
+    this._super(...arguments);
+  },
 
   actions: {
     proxy(context) {

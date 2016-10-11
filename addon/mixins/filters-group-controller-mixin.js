@@ -47,14 +47,11 @@ export default Ember.Mixin.create({
         selectedKeys.push(`${keyName}:@undefined`);
       }
     });
-    console.log('selectedKeys',selectedKeys);
     return selectedKeys;
   }),
-  filtersController: observer('filterIteration',function () {
-
+  manageFilters() {
     let allFilters = get(this,'selectedFilters') || [];
     let existingSelectedKeys = get(this,'selectedKeys');
-    console.log('existingSelectedKeys',existingSelectedKeys);
     allFilters.forEach(filter=>{
       if (get(filter,'dependsOn.name')) {
         let key = `${get(filter,'dependsOn.name')}:${get(filter,'dependsOn.value')}`;
@@ -72,11 +69,12 @@ export default Ember.Mixin.create({
         }
       }
     });
-
+  },
+  filtersController: observer('filterIteration',function () {
+    run.debounce(this,this.manageFilters,10);
   }),
   dependenciesMap: {},
   existingFilters: computed('selectedFilters',function () {
-    console.log('existingFilters');
     let allFilters = get(this,'selectedFilters') || [];
     let dependsMap = {};
     allFilters.forEach(filter=>{
@@ -99,11 +97,9 @@ export default Ember.Mixin.create({
         this.hideFilter(filter);
       });
     }
-    console.log('hideFilter');
     this.createLocalRequest(filerName,'setProperties',{isHidden:true});
   },
   showFilter(filerName) {
-    console.log('showFilter');
     this.createLocalRequest(filerName,'setProperties',{isHidden:false});
   }
 });
