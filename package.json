@@ -1,6 +1,6 @@
 {
   "name": "ember-hell-filters",
-  "version": "0.1.15",
+  "version": "0.1.16",
   "description": "This is filters-hell solving ember component",
   "directories": {
     "doc": "doc",
@@ -11,7 +11,7 @@
     "start": "ember server",
     "test": "ember try:each"
   },
-  "repository":  {
+  "repository": {
     "type": "git",
     "url": "https://github.com/lifeart/ember-hell-filters"
   },
@@ -44,7 +44,15 @@
     "loader.js": "^4.0.1"
   },
   "keywords": [
-    "ember-addon", "filters", "ember-filters", "filter-component", "filter","filters", "forms", "form-builder", "interactive-forms"
+    "ember-addon",
+    "filters",
+    "ember-filters",
+    "filter-component",
+    "filter",
+    "filters",
+    "forms",
+    "form-builder",
+    "interactive-forms"
   ],
   "dependencies": {
     "ember-cli-babel": "^5.1.6",
