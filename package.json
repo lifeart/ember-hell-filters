@@ -1,6 +1,6 @@
 {
   "name": "ember-hell-filters",
-  "version": "0.1.16",
+  "version": "0.1.17",
   "description": "This is filters-hell solving ember component",
   "directories": {
     "doc": "doc",
