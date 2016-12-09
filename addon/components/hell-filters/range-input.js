@@ -28,6 +28,12 @@ export default Ember.Component.extend(FilterComponentMixin,{
     });
   },
   actions: {
+
+    resetValues(messageName,uid) {
+      this.set('valueEnd','');
+      this.set('valueStart','');
+      this.send('valueAction',messageName,uid);
+    },
     valueChanged: function () {
       this.sendAction('didChange',[this.get('valueStart'),this.get('valueEnd')]);
       // console.log(arguments);

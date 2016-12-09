@@ -34,6 +34,10 @@ export default Ember.Component.extend(FilterComponentMixin,{
   placeholder: '',
   value: false,
   actions: {
+    resetValues(messageName,uid) {
+      this.set('value',false);
+      this.send('valueAction',messageName,uid);
+    },
     valueChanged: function () {
       this.sendAction('didChange',this.get('value'));
     },

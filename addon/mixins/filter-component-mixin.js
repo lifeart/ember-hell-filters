@@ -5,6 +5,7 @@ export default Ember.Mixin.create({
   eventsNamespace: computed.readOnly('filterEventBus.eventsNamespace'),
   groupNamespace: computed.readOnly('filterEventBus.groupNamespace'),
   getValueDefaultAction: 'valueAction',
+  resetValueToInitialAction: 'resetValues',
   globalEventTrigger: '_defaultPropertyTrigger',
   localEventTrigger: '_defaultPropertyTrigger',
   globalFiltersEventNamespace: computed('filtersUID',function () {
@@ -52,9 +53,15 @@ export default Ember.Mixin.create({
       });
 
       if (hasValidState) {
-        if (this.actions && this.actions.hasOwnProperty(get(this,'getValueDefaultAction'))) {
+        if (this._actions && this._actions.hasOwnProperty(get(this,'getValueDefaultAction'))) {
           this.send(get(this,'getValueDefaultAction'),uid);
         }
+      }
+    }
+
+    if (eventType === 'resetValuesToInitial') {
+      if (this._actions && this._actions.hasOwnProperty(get(this,'resetValueToInitialAction'))) {
+        this.send(get(this,'resetValueToInitialAction'),uid);
       }
     }
   }

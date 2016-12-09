@@ -51,7 +51,11 @@ export default Ember.Component.extend(FilterComponentMixin,{
     return new Date();
   }),
   actions: {
-
+    resetValues(messageName,uid) {
+      this.set('valueStart',new Date());
+      this.set('valueEnd',new Date());
+      this.send('valueAction',messageName,uid);
+    },
     valueAction(messageName,uid) {
       let result = {};
       result[this.get('filterName')] = [this.get('valueStart'),this.get('valueEnd')];

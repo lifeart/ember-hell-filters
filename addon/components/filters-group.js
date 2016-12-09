@@ -26,6 +26,9 @@ export default Component.extend(FilterGroupMessageReceiver,FiltersGroupControlle
   hiddenValues() {
     return this.createGlobalRequest('value:if',{isHidden:true});
   },
+  initialValues() {
+    return this.createGlobalRequest('resetValuesToInitial');
+  },
   visibleValues() {
     return this.createGlobalRequest('value:if',{isHidden:false});
   },
@@ -98,6 +101,13 @@ export default Component.extend(FilterGroupMessageReceiver,FiltersGroupControlle
       this.visibleValues().then(values=>{
         this.set('resolvedFilters',values);
         this.sendAction('filtersDidChange',values);
+      });
+    },
+    resetAllValues() {
+      this.initialValues().then(()=>{
+        this.set('values',{});
+        this.manageFilters();
+        this.send('applyVisibleFilters');
       });
     }
   }

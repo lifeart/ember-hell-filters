@@ -45,6 +45,11 @@ export default Ember.Component.extend(FilterComponentMixin,{
         this.sendAction('rawChange',this.get('valueAlias'),this.get('value'));
       }
     },
+    resetValues(messageName,uid) {
+      this.set('value','');
+      this.set('cmpSymbol','>');
+      this.send('valueAction',messageName,uid);
+    },
     valueAction(messageName,uid) {
       let result = {};
       result[get(this,'filterName')] = [this.get('cmpSymbol'),this.get('value')];

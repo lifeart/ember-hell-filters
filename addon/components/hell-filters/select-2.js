@@ -125,6 +125,11 @@ export default Ember.Component.extend(FilterComponentMixin,{
     }));
   }),
   actions: {
+    resetValues(messageName,uid) {
+      this.set('value',Ember.A());
+      this.set('selectedItems',Ember.A());
+      this.send('valueAction',messageName,uid);
+    },
     changeAction(items) {
       if (isArray(items)) {
         this.sendAction('didChange',items.map(item=>get(item,'id')));

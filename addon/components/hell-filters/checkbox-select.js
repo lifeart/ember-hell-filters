@@ -62,6 +62,13 @@ export default Ember.Component.extend(FilterComponentMixin,{
     this.setIfAlive('selectedItems',selectedIds);
   },
   actions: {
+    resetValues(messageName,uid) {
+      this.setIfAlive('selectedItems',[]);
+      get(this,'checkboxes').forEach(el=>{
+        el.set('value',false);
+      });
+      this.send('valueAction',messageName,uid);
+    },
     valueChanged: function () {
       this.updateSelection();
       this.sendAction('didChange',get(this,'selectedItems'));
