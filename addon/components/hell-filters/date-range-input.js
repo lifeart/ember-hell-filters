@@ -10,6 +10,7 @@ export default Ember.Component.extend(FilterComponentMixin,{
   dateFormat: "yyyy-mm-dd",
   classNameBindings: ['isHidden:hidden'],
   isHidden: false,
+  showLabel: true,
   configurableProperties: ['valueEndAlias','isHidden','valueStartAlias','value','placeholderStart','placeholderEnd','todayHighlightStart','todayHighlightEnd','valueStart','valueEnd','label'],
   didReceiveAttrs() {
     this._super(...arguments);
@@ -35,8 +36,6 @@ export default Ember.Component.extend(FilterComponentMixin,{
         this.set('valueEnd',valueStart);
       }
     }
-    console.log('valueStart',valueStart);
-    console.log('valueEnd',valueEnd);
   }),
   placeholderStart: 'Сотрудники',
   placeholderEnd: 'Сотрудники',
