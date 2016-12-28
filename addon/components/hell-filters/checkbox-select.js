@@ -27,18 +27,24 @@ export default Ember.Component.extend(FilterComponentMixin,{
   placeholder: '',
   textKey: 'name',
   idKey: 'id',
-  selectedItems: [],
+  selectedItems: computed(function () {
+    return [];
+  }),
+  options: computed(function () {
+    return [];
+  }),
   value: false,
   checkboxes: computed('options','value',function () {
+
     let values = A(get(this,'value'));
-    let options = get(this,'options');
     let idKey = get(this,'idKey');
+    let options = get(this,'options');
     let textKey = get(this,'textKey');
 
-    run.later(this,this.updateSelection);
+    run.debounce(this,this.updateSelection,250);
 
     return isArray(options)?options.map(el=>{
-      let checked = values.contains(get(el,idKey));
+      let checked = values.includes(get(el,idKey));
       return {
         name: get(el,textKey),
         id: get(el,idKey),
@@ -48,18 +54,21 @@ export default Ember.Component.extend(FilterComponentMixin,{
     }):[];
   }),
   setIfAlive(key,value) {
+
     if (!(get(this,'isDestroyed') || get(this,'isDestroying'))) {
       this.set(key,value);
     }
   },
   updateSelection() {
-    let idKey = get(this,'idKey');
-    let selectedItems = get(this,'checkboxes').filterBy('value',true).mapBy(idKey);
-    let options = get(this,'options') || [];
-    let selectedIds = options.filter(option=>{
-      return selectedItems.contains(get(option,idKey));
-    }).mapBy(idKey);
-    this.setIfAlive('selectedItems',selectedIds);
+    run.next(this,function () {
+      let idKey = get(this,'idKey');
+      let selectedItems = get(this,'checkboxes').filterBy('value',true).mapBy(idKey);
+      let options = get(this,'options') || [];
+      let selectedIds = options.filter(option=>{
+        return selectedItems.includes(get(option,idKey));
+      }).mapBy(idKey);
+      this.setIfAlive('selectedItems',selectedIds);
+    });
   },
   actions: {
     resetValues(messageName,uid) {

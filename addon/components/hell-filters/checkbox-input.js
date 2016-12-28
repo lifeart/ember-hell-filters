@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import layout from '../../templates/components/hell-filters/checkbox-input';
 import FilterComponentMixin from '../../mixins/filter-component-mixin';
-const {get} = Ember;
+const {get,computed,observer} = Ember;
 export default Ember.Component.extend(FilterComponentMixin,{
   layout,
   classNames: ['form-group'],
@@ -21,14 +21,14 @@ export default Ember.Component.extend(FilterComponentMixin,{
       }
     });
   },
-  checked: Ember.computed('value',function () {
+  checked: computed('value',function () {
     return this.get('value');
   }),
-  checkWatcher: Ember.observer('checked',function () {
+  checkWatcher: observer('checked',function () {
     this.send('valueChanged');
   }),
   label: '',
-  hasLabel: Ember.computed('label',function(){
+  hasLabel: computed('label',function(){
     return this.get('label') !== false;
   }),
   placeholder: '',
