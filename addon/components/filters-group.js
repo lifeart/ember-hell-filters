@@ -11,10 +11,13 @@ export default Component.extend(FilterGroupMessageReceiver,FiltersGroupControlle
   groupNamespace: computed.readOnly('filterEventBus.groupNamespace'),
   changeActionName: 'filterFieldChanged',
   classNames: ['flex-row'],
+  gid() {
+    return get(this,'filterEventBus').generateId();
+  },
   init() {
     this._super(...arguments);
     if (!get(this,'filtersUID')) {
-      set(this,'filtersUID',get(this,'filterEventBus').generateId());
+      set(this,'filtersUID',this.gid());
     }
     get(this,'filterEventBus').on(`${get(this,'groupNamespace')}:${get(this,'filtersUID')}`, this, get(this,'defaultMessageReceiverName'));
   },
@@ -33,11 +36,11 @@ export default Component.extend(FilterGroupMessageReceiver,FiltersGroupControlle
     return this.createGlobalRequest('value:if',{isHidden:false});
   },
   createLocalRequest(filterName,actionName,fields) {
-    let id = get(this,'filterEventBus').generateId();
+    let id = this.gid();
     get(this,'filterEventBus').trigger(`${get(this,'eventsNamespace')}:${get(this,'filtersUID')}:${filterName}`,actionName,fields,id);
   },
   createGlobalRequest(name,fields) {
-    let id = get(this,'filterEventBus').generateId();
+    let id = this.gid();
     let p = new RSVP.Promise((resolve,reject)=>{
       this.messageResolver(id,resolve,reject);
     });

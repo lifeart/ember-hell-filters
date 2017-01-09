@@ -2,7 +2,7 @@ import Ember from 'ember';
 import layout from '../../templates/components/hell-filters/select-2';
 import FilterComponentMixin from '../../mixins/filter-component-mixin';
 
-const {get,isArray,A,computed} = Ember;
+const {get,isArray,A,computed,run} = Ember;
 
 const findValueInSelect2Object = function (id,item,idKey) {
   if (item[idKey] === id) {
@@ -126,9 +126,10 @@ export default Ember.Component.extend(FilterComponentMixin,{
   }),
   actions: {
     resetValues(messageName,uid) {
+      run.begin();
       this.set('value',Ember.A());
-      this.set('selectedItems',Ember.A());
       this.send('valueAction',messageName,uid);
+      run.end();
     },
     changeAction(items) {
       if (isArray(items)) {
