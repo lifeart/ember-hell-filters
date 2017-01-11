@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import layout from '../../templates/components/hell-filters/compare-input';
 import FilterComponentMixin from '../../mixins/filter-component-mixin';
-const {get} = Ember;
+const {get,isArray} = Ember;
 export default Ember.Component.extend(FilterComponentMixin,{
   layout,
   classNames: ['form-group'],
@@ -23,7 +23,7 @@ export default Ember.Component.extend(FilterComponentMixin,{
     let valuesToSet = get(this,'configurableProperties');
     valuesToSet.forEach(item=>{
       if (config.hasOwnProperty(item)) {
-        if (item === 'value' && Ember.isArray(config[item])) {
+        if (item === 'value' && isArray(config[item])) {
           this.set('value',config[item][1]);
           this.set('cmpSymbol',config[item][0]);
         } else {
