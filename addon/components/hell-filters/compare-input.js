@@ -23,7 +23,12 @@ export default Ember.Component.extend(FilterComponentMixin,{
     let valuesToSet = get(this,'configurableProperties');
     valuesToSet.forEach(item=>{
       if (config.hasOwnProperty(item)) {
-        this.set(item,config[item]);
+        if (item === 'value' && Ember.isArray(config[item])) {
+          this.set('value',config[item][1]);
+          this.set('cmpSymbol',config[item][0]);
+        } else {
+          this.set(item,config[item]);
+        }
       }
     });
   },
